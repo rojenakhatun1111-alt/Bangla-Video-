@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bangla Video</title>
+<style>
+:root{--red:#e62117;--ink:#171717;--muted:#666;--line:#e7e7e7;--bg:#fff;--soft:#f3f3f3}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Bengali",sans-serif;color:var(--ink);background:var(--bg)}
+header{height:62px;display:flex;align-items:center;gap:14px;padding:0 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5}
+.brand{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;white-space:nowrap}.logo{width:34px;height:24px;background:var(--red);border-radius:8px;display:grid;place-items:center;color:white;font-size:15px}
+.search{display:flex;max-width:600px;flex:1;margin:auto}.search input{width:100%;min-width:0;padding:11px 14px;border:1px solid #c9c9c9;border-radius:24px 0 0 24px;font-size:15px;outline:none}.search button{border:1px solid #c9c9c9;border-left:0;border-radius:0 24px 24px 0;padding:0 18px;background:#f8f8f8;font-size:18px}
+.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:22px;padding:10px 14px;font-weight:700;cursor:pointer}.btn-red{background:var(--red);color:#fff}.btn-light{background:var(--soft);color:#222}
+.layout{display:flex}.sidebar{width:205px;padding:16px 10px;border-right:1px solid var(--line);min-height:calc(100vh - 62px);position:sticky;top:62px;align-self:flex-start}.nav{display:block;width:100%;text-align:left;border:0;background:white;padding:13px 12px;border-radius:10px;font-size:15px;cursor:pointer;margin-bottom:4px}.nav.active,.nav:hover{background:#f0f0f0;font-weight:700}.nav span{display:inline-block;width:28px}
+main{padding:20px 22px;flex:1;min-width:0}.chips{display:flex;gap:9px;overflow:auto;padding:0 0 18px;white-space:nowrap}.chip{border:0;background:#f0f0f0;border-radius:8px;padding:9px 14px;font-weight:600;cursor:pointer}.chip.active{background:#171717;color:white}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 17px}.card{min-width:0;cursor:pointer}.thumb{width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,#f7d7b5,#c7d8e9);border-radius:12px;overflow:hidden;display:grid;place-items:center;position:relative;color:#333;font-size:42px}.thumb.short{aspect-ratio:9/16;max-height:340px;background:linear-gradient(145deg,#d9c9f5,#f6d6d6)}.duration{position:absolute;bottom:7px;right:7px;background:#111c;color:white;font-size:12px;padding:3px 5px;border-radius:4px}.card-info{display:flex;gap:10px;padding-top:10px}.avatar{width:36px;height:36px;border-radius:50%;background:#e8e8e8;display:grid;place-items:center;flex-shrink:0}.title{font-size:15px;line-height:1.45;font-weight:700;margin:0 0 5px}.meta{font-size:13px;color:var(--muted);line-height:1.5}.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 10px}.notice{background:#fff8df;border:1px solid #f1df9b;border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:13px;line-height:1.6}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:center;justify-content:center;padding:16px}.modal.open{display:flex}.dialog{background:white;border-radius:16px;padding:20px;width:min(520px,100%);max-height:90vh;overflow:auto}.dialog h2{margin-top:0}.field{display:block;margin:13px 0}.field span{display:block;font-size:14px;font-weight:700;margin-bottom:6px}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #ccc;border-radius:8px;font:inherit}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.video-modal .dialog{width:min(800px,100%)}video{width:100%;max-height:65vh;background:#111;border-radius:10px}.video-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.comment-box{display:flex;gap:8px;margin-top:14px}.comment-box input{flex:1;min-width:0;padding:10px;border:1px solid #ccc;border-radius:8px}.comments{font-size:14px;color:#444;margin-top:10px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:76px;padding:12px 6px}.nav{text-align:center;padding:13px 4px;font-size:11px}.nav span{display:block;width:auto;font-size:19px;margin-bottom:5px}.nav .label{display:block}}
+@media(max-width:560px){header{padding:0 10px;gap:8px;height:58px}.brand{font-size:16px}.logo{width:30px;height:22px}.search input{padding:9px 10px}.search button{padding:0 10px}.top-actions .btn{padding:9px 10px;font-size:12px}.top-actions #loginBtn{display:none}.sidebar{width:58px;top:58px}.layout main{padding:14px 10px}.grid{grid-template-columns:1fr;gap:22px}.thumb{border-radius:9px}.card-info{padding-top:8px}.notice{font-size:12px}.chips{padding-bottom:14px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><span class="logo">▶</span><span>Bangla Video</span></div>
+  <form class="search" id="searchForm"><input id="searchInput" placeholder="ভিডিও খুঁজুন..." aria-label="ভিডিও খুঁজুন"><button aria-label="Search">⌕</button></form>
+  <div class="top-actions"><button class="btn btn-light" id="uploadBtn">＋ Upload</button><button class="btn btn-light" id="loginBtn">Login</button></div>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="nav active" data-filter="all"><span>▶</span><span class="label">Videos</span></button>
+    <button class="nav" data-filter="short"><span>▣</span><span class="label">Shorts</span></button>
+    <button class="nav" id="myUploads"><span>📁</span><span class="label">My uploads</span></button>
+  </aside>
+  <main>
+    <div class="notice"><b>প্রোটোটাইপ:</b> এই ফাইলটি দিয়ে ডিজাইন দেখা, নিজের ফোন থেকে ভিডিও বেছে নিয়ে এই ব্রাউজারে প্রিভিউ করা যাবে। স্থায়ী অনলাইন আপলোড, একাধিক ব্যবহারকারীর অ্যাকাউন্ট, লাইক/কমেন্ট সংরক্ষণ ও বিজ্ঞাপনের জন্য পরে সার্ভার/ডেটাবেস যুক্ত করতে হবে।</div>
+    <div class="chips">
+      <button class="chip active" data-filter="all">সব ভিডিও</button>
+      <button class="chip" data-filter="short">Shorts</button>
+      <button class="chip" data-filter="long">লম্বা ভিডিও</button>
+      <button class="chip" data-filter="new">নতুন আপলোড</button>
+    </div>
+    <div class="grid" id="videoGrid">
+      <div class="empty" id="emptyState">এখনও কোনো ভিডিও নেই।<br>“＋ Upload” চাপ দিয়ে আপনার ফোন থেকে ভিডিও বেছে নিন।</div>
+    </div>
+  </main>
+</div>
+
+<div class="modal" id="uploadModal">
+ <div class="dialog">
+  <h2>ভিডিও আপলোড করুন</h2>
+  <form id="uploadForm">
+   <label class="field"><span>ভিডিওর নাম</span><input id="videoTitle" required maxlength="100" placeholder="ভিডিওর নাম লিখুন"></label>
+   <label class="field"><span>ভিডিওর ধরন</span><select id="videoType"><option value="long">লম্বা ভিডিও</option><option value="short">Shorts (ছোট ভিডিও)</option></select></label>
+   <label class="field"><span>ভিডিও ফাইল বেছে নিন</span><input id="videoFile" type="file" accept="video/*" required></label>
+   <label class="field"><span>বিবরণ (ঐচ্ছিক)</span><textarea id="videoDesc" rows="3" placeholder="ভিডিও সম্পর্কে লিখুন"></textarea></label>
+   <div class="dialog-actions"><button type="button" class="btn btn-light" data-close="uploadModal">বাতিল</button><button class="btn btn-red" type="submit">প্রিভিউ যোগ করুন</button></div>
+  </form>
+ </div>
+</div>
+<div class="modal video-modal" id="playerModal">
+ <div class="dialog">
+  <button class="btn btn-light" data-close="playerModal" style="float:right">✕ বন্ধ</button>
+  <h2 id="playerTitle">ভিডিও</h2><video id="player" controls playsinline></video><p class="meta" id="playerDesc"></p>
+  <div class="video-actions"><button class="btn btn-light" id="likeBtn">♡ Like <span id="likeCount">0</span></button><button class="btn btn-light" id="shareBtn">↗ Share</button></div>
+  <div class="comment-box"><input id="commentInput" placeholder="মন্তব্য লিখুন"><button class="btn btn-red" id="commentBtn">পাঠান</button></div><div class="comments" id="comments"></div>
+ </div>
+</div>
+<div class="modal" id="loginModal"><div class="dialog"><h2>Login / Sign Up</h2><p>এটি এখন শুধু ডিজাইনের ডেমো। সত্যিকারের অ্যাকাউন্ট তৈরি করতে নিরাপদ authentication service যুক্ত করতে হবে।</p><label class="field"><span>ইমেইল বা মোবাইল</span><input placeholder="আপনার ইমেইল বা মোবাইল"></label><label class="field"><span>পাসওয়ার্ড</span><input type="password" placeholder="পাসওয়ার্ড"></label><div class="dialog-actions"><button class="btn btn-light" data-close="loginModal">বন্ধ</button></div></div></div>
+<script>
+const $=id=>document.getElementById(id);
+let videos=[],activeVideo=null,filter='all',searchTerm='';
+const grid=$('videoGrid');
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function showModal(id){$(id).classList.add('open')}
+function hideModal(id){$(id).classList.remove('open')}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>hideModal(b.dataset.close));
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)hideModal(m.id)}));
+$('uploadBtn').onclick=()=>showModal('uploadModal');$('loginBtn').onclick=()=>showModal('loginModal');
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));render()}));
+$('myUploads').onclick=()=>{filter='new';document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x.dataset.filter==='new'));render()};
+$('searchForm').addEventListener('submit',e=>{e.preventDefault();searchTerm=$('searchInput').value.trim().toLowerCase();render()});
+$('uploadForm').addEventListener('submit',e=>{
+ e.preventDefault();const file=$('videoFile').files[0];if(!file)return;
+ if(!file.type.startsWith('video/')){alert('একটি ভিডিও ফাইল বেছে নিন।');return}
+ const v={id:Date.now(),title:$('videoTitle').value.trim(),type:$('videoType').value,desc:$('videoDesc').value.trim(),file,url:URL.createObjectURL(file),likes:0,comments:[]};
+ videos.unshift(v);$('uploadForm').reset();hideModal('uploadModal');render();openVideo(v);
+});
+function render(){
+ const list=videos.filter(v=>(filter==='all'||filter==='new'||v.type===filter)&&(!searchTerm||(v.title+' '+v.desc).toLowerCase().includes(searchTerm)));
+ if(!list.length){grid.innerHTML='<div class="empty">কোনো ভিডিও পাওয়া যায়নি।<br>“＋ Upload” চাপ দিয়ে আপনার ফোন থেকে ভিডিও যোগ করুন।</div>';return}
+ grid.innerHTML=list.map(v=>`<article class="card" data-id="${v.id}"><div class="thumb ${v.type==='short'?'short':''}"><span>▶</span><span class="duration">${v.type==='short'?'SHORTS':'VIDEO'}</span></div><div class="card-info"><div class="avatar">▶</div><div><p class="title">${esc(v.title)}</p><div class="meta">আপনার আপলোড · ${v.likes} likes</div></div></div></article>`).join('');
+ grid.querySelectorAll('.card').forEach(card=>card.onclick=()=>openVideo(videos.find(v=>v.id===Number(card.dataset.id))));
+}
+function openVideo(v){if(!v)return;activeVideo=v;$('playerTitle').textContent=v.title;$('playerDesc').textContent=v.desc;$('player').src=v.url;$('likeCount').textContent=v.likes;$('comments').innerHTML=v.comments.map(c=>'<p>💬 '+esc(c)+'</p>').join('');showModal('playerModal')}
+$('likeBtn').onclick=()=>{if(activeVideo){activeVideo.likes++;$('likeCount').textContent=activeVideo.likes;render()}};
+$('commentBtn').onclick=()=>{const c=$('commentInput').value.trim();if(c&&activeVideo){activeVideo.comments.push(c);$('commentInput').value='';$('comments').innerHTML=activeVideo.comments.map(x=>'<p>💬 '+esc(x)+'</p>').join('')}};
+$('shareBtn').onclick=async()=>{const data={title:activeVideo?.title||'Bangla Video',text:'Bangla Video-তে এই ভিডিওটি দেখুন'};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('ওয়েবসাইটের লিংক কপি হয়েছে।')}}catch(e){}};
+</script>
+</body>
+</html>
